@@ -1,5 +1,6 @@
 package com.example.simbirsoft_app.view
 
+import android.content.Context
 import android.icu.text.SimpleDateFormat
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -42,63 +43,49 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import com.example.simbirsoft_app.jsonReader.TaskResponse
+import com.example.simbirsoft_app.jsonReader.mapTaskResponse
 import com.example.simbirsoft_app.models.Task
+import java.time.Instant
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
 
 
 @Composable
 fun TaskPickerScreen(){
 
-    val dayPlanner = mutableListOf(
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        Task("00:00", "01:00", "Сделать лабу", "Сделать лабу по мисии"),
-        
-    )
+    val context = LocalContext.current
+    val taskResponse : MutableList<TaskResponse> = mapTaskResponse(context)
 
-    DayTaskTable(dayList = dayPlanner)
+
+
+    DayTaskTable(dayList = taskResponse)
 
     //DatePickerModal()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DayTaskTable(dayList: MutableList<Task>){
+fun DayTaskTable(dayList: MutableList<TaskResponse>){
 
     val datePickerState = rememberDatePickerState()
 
     LazyColumn() {
         item {
-//            dayList.forEach{
-//                //HourTaskTable(task = it)
-//            }пе
+
+            dayList.forEach{
+                HourTaskTable(task = it)
+            }
            // TaskView(task = dayList[0])
-            DatePicker(state = datePickerState)
+           // DatePicker(state = datePickerState)
         }
     }
 }
@@ -193,7 +180,7 @@ fun convertMillisToDate(millis: Long): String {
 }
 
 @Composable
-fun HourTaskTable(task : Task){
+fun HourTaskTable(task : TaskResponse){
     Card(
         modifier = Modifier
             .padding(bottom = 5.dp)
@@ -206,12 +193,15 @@ fun HourTaskTable(task : Task){
     ) {
         Row(modifier = Modifier.padding(vertical = 5.dp)) {
             Text(
-                text = task.dateStart + "-" + task.dateFinish,
+                text = DateTimeFormatter
+                    .ofPattern("HH:mm")
+                    .withZone(ZoneOffset.UTC)
+                    .format(Instant.now()), // TODO: Переделать под нормальное время
                 fontSize = 20.sp,
                 modifier = Modifier.padding(horizontal = 10.dp)
             )
             Spacer(modifier = Modifier.width(100.dp))
-            Text(text = task.taskName, fontSize = 20.sp)
+            Text(text = task.name, fontSize = 20.sp)
         }
         Divider()
     }

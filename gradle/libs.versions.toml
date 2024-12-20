@@ -14,6 +14,7 @@ composeBom = "2023.08.00"
 nav_version = "2.8.5"
 navigationCompose = "2.8.5"
 composeNavigation = "2.8.5"
+gson = "2.11.0"
 
 
 [libraries]
@@ -32,6 +33,8 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
+google-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson"}
+
 io-navigation = {group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "nav_version"}
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation"}
@@ -39,4 +42,5 @@ navigation-compose = { module = "androidx.navigation:navigation-compose", versio
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
 
