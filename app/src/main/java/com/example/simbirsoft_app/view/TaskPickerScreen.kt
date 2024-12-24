@@ -47,9 +47,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import androidx.navigation.NavController
 import com.example.simbirsoft_app.jsonReader.TaskResponse
 import com.example.simbirsoft_app.jsonReader.mapTaskResponse
 import com.example.simbirsoft_app.models.Task
+import com.example.simbirsoft_app.navigation.TaskScreen
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -60,32 +62,33 @@ import kotlin.time.Duration.Companion.hours
 
 
 @Composable
-fun TaskPickerScreen(){
+fun TaskPickerScreen(navController: NavController){
 
     val context = LocalContext.current
     val taskResponse : MutableList<TaskResponse> = mapTaskResponse(context)
 
 
 
-    DayTaskTable(dayList = taskResponse)
+    DayTaskTable(dayList = taskResponse, navController)
 
     //DatePickerModal()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DayTaskTable(dayList: MutableList<TaskResponse>){
+fun DayTaskTable(dayList: MutableList<TaskResponse>, navController: NavController){
 
     val datePickerState = rememberDatePickerState()
 
     LazyColumn() {
         item {
 
+            DatePicker(state = datePickerState)
+
             dayList.forEach{
-                HourTaskTable(task = it)
+                HourTaskTable(task = it, navController, datePickerState)
             }
            // TaskView(task = dayList[0])
-           // DatePicker(state = datePickerState)
         }
     }
 }
@@ -179,8 +182,10 @@ fun convertMillisToDate(millis: Long): String {
     return formatter.format(Date(millis))
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HourTaskTable(task : TaskResponse){
+fun HourTaskTable(task : TaskResponse, navController: NavController, datePickerState: DatePickerState){
+
     Card(
         modifier = Modifier
             .padding(bottom = 5.dp)
@@ -188,15 +193,20 @@ fun HourTaskTable(task : TaskResponse){
             .fillMaxWidth()
             .border(BorderStroke(0.dp, color = Color.Transparent))
             .clickable {
-
+                navController.navigate(
+                    TaskScreen(
+                        task.id,
+                        task.getFormattedStartDate(),
+                        task.getFormattedFinishDate(),
+                        task.name,
+                        task.description,
+                    )
+                )
             }
     ) {
         Row(modifier = Modifier.padding(vertical = 5.dp)) {
             Text(
-                text = DateTimeFormatter
-                    .ofPattern("HH:mm")
-                    .withZone(ZoneOffset.UTC)
-                    .format(Instant.now()), // TODO: Переделать под нормальное время
+                text = task.getFormattedStartDate() + "-" + task.getFormattedFinishDate(),
                 fontSize = 20.sp,
                 modifier = Modifier.padding(horizontal = 10.dp)
             )

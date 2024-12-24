@@ -9,9 +9,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.navigation.NavController
 
 @Composable
-fun TaskCreateView(){
+fun TaskCreateView(navController: NavController){
 
     var taskName: String by remember {mutableStateOf("")}
     var taskDescription: String by remember {mutableStateOf("")}

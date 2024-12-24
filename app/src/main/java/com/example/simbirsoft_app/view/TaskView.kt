@@ -19,16 +19,18 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.simbirsoft_app.jsonReader.TaskResponse
 import com.example.simbirsoft_app.models.Task
-
+import com.example.simbirsoft_app.navigation.TaskScreen
 
 
 @Composable
-fun TaskView(task: Task){
+fun TaskView(navController: NavController, navArgs: TaskScreen){
 
-    var taskName by remember { mutableStateOf(task.taskName)}
-    var taskDate by remember { mutableStateOf(task.dateStart)}
-    var taskDescription by remember { mutableStateOf(task.taskDescription) }
+    var taskName by remember { mutableStateOf(navArgs.name)}
+    var taskDate by remember { mutableStateOf(navArgs.dateStart)}
+    var taskDescription by remember { mutableStateOf(navArgs.description) }
 
     Column(modifier = Modifier.padding(horizontal = 15.dp)) {
 
@@ -36,7 +38,7 @@ fun TaskView(task: Task){
             value = taskName,
             onValueChange = {
                 taskName = it
-                task.taskName = it
+                navArgs.name = it
                             },
             modifier = Modifier.padding(bottom = 10.dp),
             textStyle = TextStyle(
@@ -55,7 +57,7 @@ fun TaskView(task: Task){
         )
 
         TextField(
-            value = task.dateStart + "-" + task.dateFinish,
+            value = navArgs.dateStart + ":" + navArgs.dateFinish,
             onValueChange = {
                 taskDate = it
                             },
@@ -79,7 +81,7 @@ fun TaskView(task: Task){
             value = taskDescription,
             onValueChange = {
                 taskDescription = it
-                task.taskDescription = it
+                navArgs.description = it
                             },
             modifier = Modifier.padding(vertical = 10.dp),
             textStyle = TextStyle(

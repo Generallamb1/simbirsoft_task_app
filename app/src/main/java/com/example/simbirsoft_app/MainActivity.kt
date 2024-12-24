@@ -22,6 +22,9 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
+import com.example.simbirsoft_app.navigation.NavController
+import com.example.simbirsoft_app.navigation.NewTaskScreen
 import com.example.simbirsoft_app.ui.theme.Simbirsoft_appTheme
 import com.example.simbirsoft_app.view.TaskPickerScreen
 
@@ -31,14 +34,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
             Simbirsoft_appTheme {
+
+                var navController = rememberNavController()
+
                 Scaffold(
                     topBar = {
                         TopAppBar(
                             title = { /*TODO*/ },
                             navigationIcon = {
                                 IconButton(
-                                    onClick = { /*TODO*/ },
+                                    onClick = { navController.popBackStack() },
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.ArrowBack,
@@ -59,7 +66,9 @@ class MainActivity : ComponentActivity() {
                     floatingActionButton = {
                         FloatingActionButton(
                             containerColor = Color.Yellow,
-                            onClick = { /*TODO*/ }
+                            onClick = {
+                                navController.navigate(NewTaskScreen)
+                            }
                         ) {
                             Icon(imageVector = Icons.Default.Create, contentDescription = "Create")
                         }
@@ -68,7 +77,7 @@ class MainActivity : ComponentActivity() {
                     Column(
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        TaskPickerScreen()
+                       NavController()
                     }
                 }
             }
