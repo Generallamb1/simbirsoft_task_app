@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt.android.gradle.plugin)
+    kotlin("kapt")
 }
 
 android {
@@ -66,6 +68,11 @@ dependencies {
     implementation(libs.io.navigation)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.navigation.compose)
+
+    implementation(libs.androidx.room)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.kapt)
+    implementation(libs.hilt.navigation.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.simbirsoft_app.jsonReader.TaskResponse
-import com.example.simbirsoft_app.models.Task
+import com.example.simbirsoft_app.domain.models.Task
 import com.example.simbirsoft_app.navigation.TaskScreen
 
 
@@ -34,26 +34,16 @@ fun TaskView(navController: NavController, navArgs: TaskScreen){
 
     Column(modifier = Modifier.padding(horizontal = 15.dp)) {
 
-        TextField(
-            value = taskName,
-            onValueChange = {
-                taskName = it
-                navArgs.name = it
-                            },
-            modifier = Modifier.padding(bottom = 10.dp),
-            textStyle = TextStyle(
-                fontWeight = FontWeight.Medium,
-                fontSize = 30.sp
-            ),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                disabledContainerColor = Color.Transparent,
-                errorContainerColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent
-            )
+        TaskViewText(
+            taskName,
+            navArgs,
+            TextStyle(fontWeight = FontWeight.Medium, fontSize = 30.sp)
+        )
+
+        TaskViewText(
+            taskDate.toString(),
+            navArgs,
+            TextStyle(fontWeight = FontWeight.Medium, fontSize = 30.sp)
         )
 
         TextField(
@@ -99,25 +89,32 @@ fun TaskView(navController: NavController, navArgs: TaskScreen){
             )
         )
 
-
-
-//        TextField(
-//            textFieldValue = task.taskName,
-//            fontSize = 30.sp,
-//            fontWeight = FontWeight.Bold,
-//            modifier = Modifier.padding(vertical = 20.dp)
-//        )
-//        Text(
-//            text = task.dateStart + "-" + task.dateFinish,
-//            fontWeight = FontWeight.Medium,
-//            fontSize = 20.sp,
-//            modifier = Modifier.padding(bottom = 10.dp)
-//        )
-//        Text(
-//            text = task.taskDescription,
-//            fontSize = 20.sp,
-//            fontWeight = FontWeight.Normal
-//        )
-
     }
+}
+
+@Composable
+private fun TaskViewText(
+    taskData: String,
+    navArgs: TaskScreen,
+    textStyle: TextStyle
+) {
+    var taskName1 = taskData
+    TextField(
+        value = taskName1,
+        onValueChange = {
+            taskName1 = it
+            navArgs.name = it
+        },
+        modifier = Modifier.padding(bottom = 10.dp),
+        textStyle = textStyle,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent,
+            errorContainerColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent
+        )
+    )
 }

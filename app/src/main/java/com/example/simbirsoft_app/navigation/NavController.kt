@@ -2,20 +2,19 @@ package com.example.simbirsoft_app.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.simbirsoft_app.jsonReader.TaskResponse
-import com.example.simbirsoft_app.models.Task
 import com.example.simbirsoft_app.view.TaskCreateView
-import com.example.simbirsoft_app.view.TaskPickerScreen
+import com.example.simbirsoft_app.ui.task_picker_screen.TaskPickerScreen
 import com.example.simbirsoft_app.view.TaskView
 import kotlinx.serialization.Serializable
 
 @Composable
-fun NavController(): NavController {
-    val navController = rememberNavController()
+fun NavController(navController: NavHostController): NavController {
 
     NavHost(navController = navController, startDestination = MainScreen) {
         composable<MainScreen> { TaskPickerScreen(navController = navController) }

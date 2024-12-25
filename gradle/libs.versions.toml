@@ -8,6 +8,7 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
 composeBom = "2023.08.00"
+hilt = "2.51.1"
 
 
 
@@ -16,6 +17,8 @@ navigationCompose = "2.8.5"
 composeNavigation = "2.8.5"
 gson = "2.11.0"
 kotlinx-serialization = "1.6.3"
+room_version = "2.6.1"
+hilt-navigation = "1.2.0"
 
 
 [libraries]
@@ -41,9 +44,15 @@ io-navigation = {group = "androidx.navigation", name = "navigation-fragment-ktx"
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation"}
 
+androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = "room_version"}
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt"}
+hilt-kapt = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-navigation-compose = {group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation"}
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = {id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
+hilt-android-gradle-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 
 
